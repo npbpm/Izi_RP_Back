@@ -23,7 +23,7 @@ app.use(function (req, res, next) {
 });
 
 connectDB();
-mailer();
+// mailer();
 
 //Routes
 app.use("/api/connexion", require("./routes/loginRoute"));
