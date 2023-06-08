@@ -19,18 +19,21 @@ if (process.env.NODE_ENV !== "production") {
 //@Route    /api/user/USERMAIL
 //@Desc     Get Currently Connected Client by Email
 //@Access   Private
-router.get("/:mail", auth, async (req, res) => {
-  try {
-    let client = await Client.findOne({ email: req.params.mail }).select(
-      "-password"
-    );
+router.get(
+  "/:mail",
+  /* auth, */ async (req, res) => {
+    try {
+      let client = await Client.findOne({ email: req.params.mail }).select(
+        "-password"
+      );
 
-    if (!client) {
-      return res.status(401).json({ msg: "Invalid Credentials" });
-    }
-    res.send(client);
-  } catch (error) {}
-});
+      if (!client) {
+        return res.status(401).json({ msg: "Invalid Credentials" });
+      }
+      res.send(client);
+    } catch (error) {}
+  }
+);
 
 //@Route    /api/user/USERID
 //@Desc     Get client by ID
