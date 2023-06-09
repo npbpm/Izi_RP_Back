@@ -14,7 +14,7 @@ const siteSchema = {
   clientId: {
     type: String,
     required: true,
-  },
+  }
 };
 
 const Site = mongoose.model("Site", siteSchema);

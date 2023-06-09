@@ -27,6 +27,8 @@ const clientSchema = {
   },
   firstName: {type: String,},
   lastName: {type: String,},
+  structure: {type: String},
+  site: {type: String}
 };
 
 const Client = mongoose.model("Client", clientSchema);

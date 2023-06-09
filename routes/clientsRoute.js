@@ -35,6 +35,20 @@ router.get(
   }
 );
 
+//@Route    /api/user/USERMAIL
+//@Desc     Get Currently Connected Client by Email
+//@Access   Private
+router.get("/structure/:structurename", auth, async (req, res) => {
+  try {
+    let client = await Client.find({ structure: req.params.structurename });
+
+    if (!client) {
+      return res.status(401).json({ msg: "Invalid Credentials" });
+    }
+    res.send(client);
+  } catch (error) {}
+});
+
 //@Route    /api/user/USERID
 //@Desc     Get client by ID
 //@Access   Private
@@ -99,7 +113,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { mail, name, lastname, admin } = req.body;
+    const { mail, name, lastname, admin, structure, site } = req.body;
 
     //Look for the user inside the database
     try {
@@ -115,6 +129,8 @@ router.post(
         email: mail,
         firstName: name,
         lastName: lastname,
+        structure: structure,
+        site: site,
         password,
         admin,
         firstConn: true,
@@ -214,6 +230,15 @@ router.put("/personalData/:userId", auth, async (req, res) => {
 router.delete("/:email", auth, async (req, res) => {
   try {
     await Client.remove({ email: req.params.email });
+  } catch (error) {
+    res.status(500).json({ msg: "An error occured while deleting" });
+    console.log(error);
+  }
+});
+
+router.delete("/structure/:SName", auth, async (req, res) => {
+  try {
+    await Client.deleteMany({ structure: req.params.SName });
   } catch (error) {
     res.status(500).json({ msg: "An error occured while deleting" });
     console.log(error);
