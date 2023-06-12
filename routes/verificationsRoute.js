@@ -42,6 +42,8 @@ router.post("/:clientId", auth, async (req, res) => {
       name,
       conformity,
       clientId: req.params.clientId,
+      siteId:req.body.sites_id
+
     });
 
     await verif.save();

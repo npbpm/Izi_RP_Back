@@ -54,8 +54,8 @@ router.post("/:clientId", auth, async (req, res) => {
       firstName,
       birthday,
       clientId: req.params.clientId,
+      siteId: req.body.sites_id,
     });
-
     await worker.save();
     res.json(worker);
   } catch (error) {
@@ -108,11 +108,15 @@ router.delete("/user/:userId", auth, async (req, res) => {
 router.put("/:workerId", auth, async (req, res) => {
   var { numSocialSecurity, charge, contract, hiringDate } = req.body;
 
-  // Encrypt
-  numSocialSecurity = CryptoJS.AES.encrypt(
-    numSocialSecurity.toString(),
-    encryptionKey
-  ).toString();
+  if (numSocialSecurity) {
+    // Encrypt
+    numSocialSecurity = CryptoJS.AES.encrypt(
+      numSocialSecurity.toString(),
+      encryptionKey
+    ).toString();
+  } else {
+    numSocialSecurity = 0;
+  }
 
   try {
     const worker = await Worker.findOneAndUpdate(

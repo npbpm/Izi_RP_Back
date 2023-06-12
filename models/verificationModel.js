@@ -20,6 +20,10 @@ const verificationSchema = {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  siteId:{
+    type:String,
+    required:false
+  },
   materials: Array,
 };
 

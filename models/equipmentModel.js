@@ -22,6 +22,10 @@ const equipmentSchema = {
     type: mongoose.Schema.Types.ObjectId,
     required: true,
   },
+  siteId:{
+    type: String,
+    required:false,
+  }
 };
 
 const Equipment = mongoose.model("Equipment", equipmentSchema);

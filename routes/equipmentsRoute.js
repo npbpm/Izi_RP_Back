@@ -36,6 +36,7 @@ router.post("/", auth, async (req, res) => {
       category,
       clientId,
       modelType,
+      siteId:req.body.sites_id
     });
 
     await equipment.save();

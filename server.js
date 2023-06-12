@@ -4,7 +4,6 @@ const app = express();
 const connectDB = require("./config/db");
 const methodOverride = require("method-override");
 const bodyParser = require("body-parser");
-const mailer = require("./config/mailing");
 const path = require("path");
 
 app.use(cors());
@@ -36,6 +35,7 @@ app.use("/api/workers", require("./routes/workersRoute"));
 app.use("/api/equipments", require("./routes/equipmentsRoute"));
 app.use("/api/structure", require("./routes/structureRoute"));
 app.use("/api/site", require("./routes/siteRoute"));
+app.use("/api/email", require("./routes/emailRoute"));
 
 // app.use(bodyParser({ limit: "50mb" }));
 

@@ -40,6 +40,10 @@ const workerSchema = {
     type: Array,
     default: [],
   },
+  siteId: {
+    type: String,
+    required: false,
+  },
 };
 
 const Worker = mongoose.model("Worker", workerSchema);

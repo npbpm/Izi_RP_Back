@@ -40,8 +40,7 @@ const storage = new GridFsStorage({
         const filename = buf.toString("hex") + path.extname(file.originalname);
         const fileInfo = {
           filename: filename,
-          bucketName: "uploads"
-          
+          bucketName: "uploads",
         };
         resolve(fileInfo);
       });
@@ -75,8 +74,8 @@ router.post("/", auth, upload.single("file"), (req, res) => {
   //It also gives every single file its own missionId, so we can load them in the right order in the front side
   gfs.files.update(
     { filename: `${req.file.filename}` },
-    { $set: { clientId: req.client.id ,siteId:req.body.sites_id} },
-    console.log("file succesfully uploaded",req.body.sites_id)
+    { $set: { clientId: req.client.id, siteId: req.body.sites_id } },
+    console.log("file succesfully uploaded", req.body.sites_id)
   );
 
   if (req.body.missions_id) {
@@ -97,7 +96,7 @@ router.get("/files", auth, async (req, res) => {
   const cursor = gfs.files.find();
   for await (const file of cursor) {
     arrayFiles.push(file);
-    console.log("found files")
+    console.log("found files");
   }
   res.json(arrayFiles);
 });
@@ -106,9 +105,10 @@ router.get("/files", auth, async (req, res) => {
 // @desc    Get all files from the DB corresponding to the clientID
 // @acces   Private
 router.get("/files/:clientId", auth, async (req, res) => {
+  console.log("IM IN THE ROUTE");
   let arrayFiles = [];
   const cursor = gfs.files.find({ clientId: req.params.clientId });
-  console.log("heh ",req.params)
+  console.log("heh ", req.params);
   for await (const file of cursor) {
     arrayFiles.push(file);
   }
@@ -117,16 +117,16 @@ router.get("/files/:clientId", auth, async (req, res) => {
 
 // @route GET /api/uploads/files/:siteId
 // @desc Get all files from DB corresponding to the SiteId
-// @acces 
+// @acces
 router.get("/files/:siteId", auth, async (req, res) => {
   let arrayFiles = [];
-const cursor = gfs.files.find({ siteId: req.params.siteId });
-console.log("houdaa = ",req.params.siteId)
-for await (const file of cursor) {
-  arrayFiles.push(file);
-}
-res.json(arrayFiles);
-})
+  const cursor = gfs.files.find({ siteId: req.params.siteId });
+  console.log("houdaa = ", req.params.siteId);
+  for await (const file of cursor) {
+    arrayFiles.push(file);
+  }
+  res.json(arrayFiles);
+});
 
 // @route   GET /api/uploads/files/download/:filename
 // @desc    Download File by Filename
@@ -170,6 +170,20 @@ router.delete("/files/:fileId", auth, async (req, res) => {
   });
 });
 
+// @route   DELETE /api/uploads/files/site/:id
+// @desc    Delete File by File ID
+// @acces   Private
+router.delete("/files/site/:sitegivenId", auth, async (req, res) => {
+  gfs.db
+    .collection("uploads.files")
+    .deleteMany({ siteId: req.params.sitegivenId }, (err, gridStore) => {
+      if (err) {
+        return res.status(404).json({ msg: err });
+      } else {
+        res.json({ msg: "Deleted" });
+      }
+    });
+});
 
 // @route   DELETE /api/uploads/files/:userid
 // @desc    Delete all File by user ID
