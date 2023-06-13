@@ -14,6 +14,8 @@ if (process.env.NODE_ENV !== "production") {
   jwtSecret = config.get("jwtSecret");
 } else {
   jwtSecret = process.env.jwtSecret;
+  console.log("THIS IS THE SECRET");
+  console.log(jwtSecret);
 }
 
 //@Route    /api/user/USERMAIL
