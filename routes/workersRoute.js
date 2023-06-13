@@ -42,6 +42,35 @@ router.get("/:clientId", auth, async (req, res) => {
   }
 });
 
+// @Route   GET /api/workers/site/:clientId
+// @Desc    Get workers for a specific client
+// @Access   Private
+router.get("/site/:givensiteId", auth, async (req, res) => {
+  try {
+    const workers = await Worker.find({ siteId: req.params.givensiteId });
+
+    for (const worker of workers) {
+      // Decrypt
+      if (worker.numSocialSecurity) {
+        var bytes = CryptoJS.AES.decrypt(
+          worker.numSocialSecurity,
+          encryptionKey
+        );
+        worker.numSocialSecurity = bytes.toString(CryptoJS.enc.Utf8);
+      }
+    }
+
+    if (!workers) {
+      res.status(404).json({ msg: "There are no workers" });
+    }
+
+    res.json(workers);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Couldn't get the workers" });
+  }
+});
+
 // @Route   POST /api/workers/:clientId
 // @Desc    Create a new Worker on the DB
 // @Access   Private
@@ -157,6 +186,28 @@ router.get("/fullSuivDossim/:workerId", auth, async (req, res) => {
   }
 });
 
+// @route   GET /api/workers/sharedactivity/:workerId
+// @desc    Get all shared activity from a worker in the DB
+// @acces   Private
+router.get("/sharedactivity/:workerId", auth, async (req, res) => {
+  let arraysharedactivity = [];
+  try {
+    const worker = await Worker.findOne({
+      _id: req.params.workerId,
+    });
+
+    if (worker.length === 0) {
+      return res.status(404).json({ msg: "No worker found" });
+    }
+    for (const Suivi of worker.sharedactivity) {
+      arraysharedactivity.push(Suivi);
+    }
+    return res.json(arraysharedactivity);
+  } catch (error) {
+    return res.status(404).json({ msg: error.message });
+  }
+});
+
 // @route   GET /api/workers/complSuivDossim/:workerId
 // @desc    Get all Compl Suiv Dossim from a worker in the DB
 // @acces   Private
@@ -213,6 +264,42 @@ router.put("/fullSuivDossim/:workerId", auth, async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 });
+
+// @Route   UPDATE /api/workers/sharedactivity/:workerId
+// @Desc    Updates the shared activity from a worker from the db (Add an especific shared activity)
+// @Access   Private
+router.put("/sharedactivity/:workerId", auth, async (req, res) => {
+  const { sharedactivitytemp } = req.body;
+
+  if (sharedactivitytemp === null) {
+    return res.json({ msg: "Null Input" });
+  }
+
+  try {
+    const worker = await Worker.findOne({
+      _id: req.params.workerId,
+    });
+
+    if (!worker) {
+      return res.status(404).json({ msg: "Worker not found" });
+    }
+
+    const index = worker.sharedactivity.findIndex((m) => m === sharedactivitytemp);
+
+    if (index !== -1) {
+      worker.sharedactivity[index] = sharedactivitytemp;
+    } else {
+      worker.sharedactivity.push(sharedactivitytemp);
+    }
+
+    const updatedWorker = await worker.save();
+
+    res.json(updatedWorker);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
 
 // @Route   UPDATE /api/workers/complSuiviDosim/:workerId
 // @Desc    Updates the Compl body Suivi Dosimetrique from a worker from the db (Add an especific suivi dosimetrique)
@@ -281,6 +368,39 @@ router.put("/fullSuivDossim/remove/:workerId", auth, async (req, res) => {
   }
 });
 
+// @Route   UPDATE /api/workers/sharedactivity/:workerId
+// @Desc    Updates the shared activity from a Worker from the db (Remove especific material)
+// @Access   Private
+router.put("/sharedactivity/remove/:workerId", auth, async (req, res) => {
+  const { sharedactivitytemp } = req.body;
+  console.log("yoo")
+  if (sharedactivitytemp === null) {
+    return res.json({ msg: "Null Material" });
+  }
+
+  try {
+    const worker = await Worker.findOne({
+      _id: req.params.workerId,
+    });
+
+    if (!worker) {
+      return res.status(404).json({ msg: "Worker not found" });
+    }
+
+    await Worker.updateOne(
+      { _id: req.params.workerId },
+      { $pull: { sharedactivity: sharedactivitytemp } }
+    ).exec();
+
+    const updatedVerification = await worker.save();
+
+    res.json(updatedVerification);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+
 // @Route   UPDATE /api/workers/complSuivDossim/:workerId
 // @Desc    Updates the Compl Suiv Dosim from a worker from the db (Remove an especific material)
 // @Access   Private
@@ -329,6 +449,32 @@ router.put("/fullSuivDossim/clear/:workerId", auth, async (req, res) => {
     await Worker.updateOne(
       { _id: req.params.workerId },
       { $set: { fullSuivDossim: [] } }
+    ).exec();
+
+    const updatedWorker = await worker.save();
+
+    res.json(updatedWorker);
+  } catch (error) {
+    res.status(500).json({ msg: error.message });
+  }
+});
+
+// @Route   UPDATE /api/workers/sharedactivity/clear/:workerId
+// @Desc    Updates the shared activity from a worker from the db (Clear all materials)
+// @Access   Private
+router.put("/sharedactivity/clear/:workerId", auth, async (req, res) => {
+  try {
+    const worker = await Worker.findOne({
+      _id: req.params.workerId,
+    });
+
+    if (!worker) {
+      return res.status(404).json({ msg: "Worker not found" });
+    }
+
+    await Worker.updateOne(
+      { _id: req.params.workerId },
+      { $set: { sharedactivity: [] } }
     ).exec();
 
     const updatedWorker = await worker.save();

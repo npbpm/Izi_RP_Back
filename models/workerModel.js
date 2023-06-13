@@ -40,6 +40,10 @@ const workerSchema = {
     type: Array,
     default: [],
   },
+  sharedactivity:{
+    type : Array,
+    default:[],
+  },
   siteId: {
     type: String,
     required: false,

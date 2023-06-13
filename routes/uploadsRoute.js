@@ -171,7 +171,7 @@ router.delete("/files/:fileId", auth, async (req, res) => {
 });
 
 // @route   DELETE /api/uploads/files/site/:id
-// @desc    Delete File by File ID
+// @desc    Delete File by site ID
 // @acces   Private
 router.delete("/files/site/:sitegivenId", auth, async (req, res) => {
   gfs.db
