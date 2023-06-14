@@ -7,10 +7,6 @@ router.get("/", auth, async (req, res) => {
   //Checking if the request was sent by an admin or not
   const { authorization } = req.body;
 
-  //    if (authorization !== "true") {
-  //  return res.status(401).json({ msg: "Access Denied" });
-  //  }
-
   try {
     let users = await Structure.find({ clientId: "test" });
 
@@ -26,8 +22,7 @@ router.post("/", auth, async (req, res) => {
     name: entry,
     clientId: "test",
   });
-  console.log("testdsada");
-  //Save the new client to the database with the password completely hashed
+
   try {
     setTimeout(() => {
       structure.save();
@@ -37,7 +32,6 @@ router.post("/", auth, async (req, res) => {
 
 router.delete("/:structurename", auth, async (req, res) => {
   try {
-    console.log("erreur ?");
     await Structure.remove({ name: req.params.structurename });
   } catch (error) {
     res.status(500).json({ msg: "An error occured while deleting" });
@@ -48,7 +42,6 @@ router.delete("/:structurename", auth, async (req, res) => {
 router.put("/:structurename", auth, async (req, res) => {
   var { givenname } = req.body;
 
-  console.log(givenname);
   try {
     const structure = await Structure.findOneAndUpdate(
       { name: req.params.structurename },

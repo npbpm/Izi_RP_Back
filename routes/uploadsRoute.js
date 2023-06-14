@@ -68,14 +68,12 @@ const upload = multer({
 // @desc    Upload file to the DB
 // @acces   Private
 router.post("/", auth, upload.single("file"), (req, res) => {
-  // console.log(req.body.missions_id);
-
   //Associates the clientId to every single file uploaded
   //It also gives every single file its own missionId, so we can load them in the right order in the front side
   gfs.files.update(
     { filename: `${req.file.filename}` },
-    { $set: { clientId: req.client.id, siteId: req.body.sites_id } },
-    console.log("file succesfully uploaded", req.body.sites_id)
+    { $set: { clientId: req.client.id, siteId: req.body.sites_id } }
+    // console.log("file succesfully uploaded", req.body.sites_id)
   );
 
   if (req.body.missions_id) {
@@ -105,10 +103,8 @@ router.get("/files", auth, async (req, res) => {
 // @desc    Get all files from the DB corresponding to the clientID
 // @acces   Private
 router.get("/files/:clientId", auth, async (req, res) => {
-  console.log("IM IN THE ROUTE");
   let arrayFiles = [];
   const cursor = gfs.files.find({ clientId: req.params.clientId });
-  console.log("heh ", req.params);
   for await (const file of cursor) {
     arrayFiles.push(file);
   }
@@ -121,7 +117,6 @@ router.get("/files/:clientId", auth, async (req, res) => {
 router.get("/files/:siteId", auth, async (req, res) => {
   let arrayFiles = [];
   const cursor = gfs.files.find({ siteId: req.params.siteId });
-  console.log("houdaa = ", req.params.siteId);
   for await (const file of cursor) {
     arrayFiles.push(file);
   }

@@ -1,106 +1,112 @@
 # IziRp
 
-### Dev Commands
+Web application developped for IziRP as an exercice for the 2023 Telecom St. Étienne PING series.
 
-Run `npm run dev` pour initialiser au même temps le serveur et le coté client (FrontEnd)
+## Tech / Framework Used
 
-Run `npm run server` pour initialiser que le server
+This is a MEAN Fullstack app.
 
-Run `npm run client` pour initialiser que le coté client (FrontEnd)
+For this project we used:
 
-## Server
+- [Angular](https://angular.io/) v: 13.3.5
+- Bootstrap v: 5.1.3
+- Express v: 4.18.2
+- [Node](https://nodejs.org/en) v: 17.4.0
+- [MongoDB](https://www.mongodb.com/)
 
-Le server run sur le port 8000, l'URL est donc: http://localhost:8000/
+ATTENTION:
+For security reasons, the environment variables will not be provided in this repo.
 
-Pour toute requête serveur on doit aller chercher en premier `/api`, exemple: `http://localhost:8000/api/user`
+## Installation
 
-### DB
+Use the package manager [npm](https://www.npmjs.com/) to install the dependencies.
 
-On utilise MongoDB comme service de database dans le cloud
+### Backend packages installation:
 
-Credentials pour accéder à la database:
+```bash
 
-username: dev
-
-password: Ping2023Telecom
-
-### Login sur le site
-
-Pour l'instant on a deux utilisateurs, 1 utilisateur client et un 1 utilisateur admin
-
-Utilisateur client:
-
-username: anais.battut@orange.com
-
-password: 1234
-
-Utiisateur Admin:
-
-username: nicoperez@gmail.com
-
-password: Hello
-
-### Nos Variables d'environnement
-
-"mongoURI": "mongodb+srv://dev:Ping2023Telecom@xray-consulting-db.sifkosj.mongodb.net/test?retryWrites=true&w=majority"
-
-"jwtSecret": "XRayConsultingSecret"
-
-"encryptionSecretKey": "_-iziRPEncryptionSecretKey-_"
-
-### .env file
+npm install --force
 
 ```
-mv .env.example .env
 
-Contenu du fichier .env :
-DB_CONNECTION=mysql
+### Frontend packages installation:
 
-DB_HOST=127.0.0.1
+PRELIMINARY: You need to be located in the izi-rp folder
 
-DB_PORT=3306
+```bash
 
-DB_DATABASE=database
+cd .\izi-rp\
+npm install
 
-DB_USERNAME=root
-
-DB_PASSWORD=
-
-DB_FOREIGN_KEYS=true
 ```
 
-# Angular
+Once everything is installed, you can go back to the project directory and start the server.
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.5.
+## Usage
 
-## Dev tools
+### Dev environment
 
-`npm install -g @angular/cli`
+To run the application locally, the front and back at the same time, use:
 
-`npm install bootstrap bootstrap-icons jquery --save @ng-select/ng-select@8.1.1`
+```bash
 
-`ng add @ng-bootstrap/ng-bootstrap`
+npm run dev
 
-## Development server
+```
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+This may take a few minutes to start if its the first time you are running the app.
 
-## Code scaffolding
+Once you have seen these two messages:
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+![alt text](https://github.com/npbpm/Izi_RP_Back/blob/main/README/mongoConnectedImg.PNG?raw=true)
 
-## Build
+![alt text](https://github.com/npbpm/Izi_RP_Back/blob/main/README/angularConnectedImg.PNG?raw=true)
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+It means everything is up and running!
 
-## Running unit tests
+Once you are inside the app, you will need an user and a password to connect to the site, these must be provided by [IziRP](https://izirpback.onrender.com/#/).
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+### Front Environment Only
 
-## Running end-to-end tests
+To run the FrontEnd only, you can use:
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+```bash
 
-## Further help
+npm run client
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+```
+
+If everything went fine, this should open up the web tab with the front end.
+
+### Back Environment Only
+
+To run the BackEnd only, you can use:
+
+```bash
+
+npm run server
+
+```
+
+This will run the backend and connect you to the database directly (You must be whitelisted in MongoDB to have access).
+
+## Credits
+
+This project was developped as a final term project by a team of 4 members:
+
+- Tobias Orth
+
+  - [LinkedIn](https://www.linkedin.com/in/tobias-orth-7240511bb/)
+
+- Nicolás Pérez
+
+  - [LinkedIn](https://www.linkedin.com/in/nicolas-perez-burbano/)
+  - [Github](https://github.com/npbpm)
+
+- Houda Sbai
+
+  - [LinkedIn](https://www.linkedin.com/in/hsbai)
+  - [Email](Houdasbai67@gmail.com)
+
+- Pierre Ya
+  - [LinkedIn](https://www.linkedin.com/in/pierre-pov-ya/)

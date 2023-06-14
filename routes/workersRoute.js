@@ -284,7 +284,9 @@ router.put("/sharedactivity/:workerId", auth, async (req, res) => {
       return res.status(404).json({ msg: "Worker not found" });
     }
 
-    const index = worker.sharedactivity.findIndex((m) => m === sharedactivitytemp);
+    const index = worker.sharedactivity.findIndex(
+      (m) => m === sharedactivitytemp
+    );
 
     if (index !== -1) {
       worker.sharedactivity[index] = sharedactivitytemp;
@@ -299,7 +301,6 @@ router.put("/sharedactivity/:workerId", auth, async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 });
-
 
 // @Route   UPDATE /api/workers/complSuiviDosim/:workerId
 // @Desc    Updates the Compl body Suivi Dosimetrique from a worker from the db (Add an especific suivi dosimetrique)
@@ -373,7 +374,6 @@ router.put("/fullSuivDossim/remove/:workerId", auth, async (req, res) => {
 // @Access   Private
 router.put("/sharedactivity/remove/:workerId", auth, async (req, res) => {
   const { sharedactivitytemp } = req.body;
-  console.log("yoo")
   if (sharedactivitytemp === null) {
     return res.json({ msg: "Null Material" });
   }
@@ -399,7 +399,6 @@ router.put("/sharedactivity/remove/:workerId", auth, async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 });
-
 
 // @Route   UPDATE /api/workers/complSuivDossim/:workerId
 // @Desc    Updates the Compl Suiv Dosim from a worker from the db (Remove an especific material)

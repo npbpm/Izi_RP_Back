@@ -65,8 +65,6 @@ router.post("/personalData/:clientId", auth, async (req, res) => {
     //Compare passwords
     const isMatch = await bcrypt.compare(oldPassword, client.password);
 
-    console.log(isMatch);
-
     if (isMatch) res.send({ match: true });
     else res.send({ match: false });
   } catch (error) {
@@ -154,7 +152,7 @@ router.post(
         payload,
         jwtSecret,
         {
-          expiresIn: 36000,
+          expiresIn: 3600,
         },
         (err, token) => {
           if (err) throw err;
