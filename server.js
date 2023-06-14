@@ -45,23 +45,6 @@ if (process.env.NODE_ENV === "production") {
 
   app.get("*", (req, res) => {
     res.sendFile(path.resolve(__dirname, "izi-rp", "dist", "index.html"));
-
-    const mailOptions = {
-      from: "jabrane252627@gmail.com",
-      to: "houdasbai67@.com",
-      subject: "Objet de l'e-mail",
-      text: "Corps du message de l'e-mail",
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-      if (error) {
-        console.error(error);
-        res.send("Une erreur s'est produite lors de l'envoi de l'e-mail");
-      } else {
-        console.log("E-mail envoyé : " + info.response);
-        res.send("L'e-mail a été envoyé avec succès");
-      }
-    });
   });
 }
 
