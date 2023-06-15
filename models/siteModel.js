@@ -7,7 +7,7 @@ const siteSchema = {
     type: String,
     required: true,
   },
-  structurename: {
+  structureId: {
     type: String,
     required: true,
   },

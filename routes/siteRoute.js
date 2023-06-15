@@ -8,7 +8,7 @@ router.get("/:givenstructure", auth, async (req, res) => {
   const { authorization } = req.body;
 
   try {
-    let users = await Site.find({ structurename: req.params.givenstructure });
+    let users = await Site.find({ structureId: req.params.givenstructure });
 
     res.json(users);
   } catch (error) {
@@ -20,7 +20,7 @@ router.post("/", auth, async (req, res) => {
   const { entry, info } = req.body;
   const site = new Site({
     name: entry,
-    structurename: info,
+    structureId: info,
     clientId: req.client.id,
   });
 
@@ -30,7 +30,7 @@ router.post("/", auth, async (req, res) => {
 
 router.delete("/structure/:structure", auth, async (req, res) => {
   try {
-    await Site.deleteMany({ structurename: req.params.structure });
+    await Site.deleteMany({ structureId: req.params.structure });
   } catch (error) {
     res.status(500).json({ msg: "An error occured while deleting" });
     console.log(error);
@@ -38,30 +38,28 @@ router.delete("/structure/:structure", auth, async (req, res) => {
 });
 
 router.delete("/:sitename", auth, async (req, res) => {
-      try {
-        console.log("erreur ?")
-        await Site.remove({name:req.params.sitename});
-      } catch (error) {
-        res.status(500).json({ msg: "An error occured while deleting" });
-        console.log(error);
-      }
-    });
+  try {
+    console.log("erreur ?");
+    await Site.remove({ _id: req.params.sitename });
+  } catch (error) {
+    res.status(500).json({ msg: "An error occured while deleting" });
+    console.log(error);
+  }
+});
 
 router.put("/:sitename", auth, async (req, res) => {
-      var { givenname} = req.body;
-    
-      try {
-        const site = await Site.findOneAndUpdate(
-          { name: req.params.sitename },
-          { name:givenname},
-          { new: true }
-        );
-    
-    
-        return res.json(worker);
-      } catch (error) {
-        res.status(404).json({ msg: error });
-      }
-    });
+  var { givenname } = req.body;
+  console.log(req.params.sitename);
+  try {
+    const site = await Site.findOneAndUpdate(
+      { _id: req.params.sitename },
+      { name: givenname }
+    );
+
+    return res.json(worker);
+  } catch (error) {
+    res.status(404).json({ msg: error });
+  }
+});
 
 module.exports = router;

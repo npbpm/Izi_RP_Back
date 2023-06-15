@@ -28,6 +28,7 @@ const clientSchema = {
   firstName: {type: String,},
   lastName: {type: String,},
   structure: {type: String},
+  structureId: {type: String},
   site: {type: String}
 };
 

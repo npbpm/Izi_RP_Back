@@ -112,7 +112,7 @@ router.get("/files/:clientId", auth, async (req, res) => {
 // @route GET /api/uploads/files/:siteId
 // @desc Get all files from DB corresponding to the SiteId
 // @acces
-router.get("/files/:siteId", auth, async (req, res) => {
+router.get("/files/site/:siteId", auth, async (req, res) => {
   let arrayFiles = [];
   const cursor = gfs.files.find({ siteId: req.params.siteId });
   for await (const file of cursor) {

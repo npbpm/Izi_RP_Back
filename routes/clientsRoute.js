@@ -31,7 +31,9 @@ router.get(
         return res.status(401).json({ msg: "Invalid Credentials" });
       }
       res.send(client);
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 );
 
@@ -111,7 +113,7 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { mail, name, lastname, admin, structure, site } = req.body;
+    const { mail, name, lastname, admin, structure,structureId, site } = req.body;
 
     //Look for the user inside the database
     try {
@@ -128,6 +130,7 @@ router.post(
         firstName: name,
         lastName: lastname,
         structure: structure,
+        structureId:structureId,
         site: site,
         password,
         admin,
@@ -244,7 +247,7 @@ router.delete("/:email", auth, async (req, res) => {
 
 router.delete("/structure/:SName", auth, async (req, res) => {
   try {
-    await Client.deleteMany({ structure: req.params.SName });
+    await Client.deleteMany({ structureId: req.params.SName });
   } catch (error) {
     res.status(500).json({ msg: "An error occured while deleting" });
     console.log(error);

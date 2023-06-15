@@ -32,7 +32,7 @@ router.post("/", auth, async (req, res) => {
 
 router.delete("/:structurename", auth, async (req, res) => {
   try {
-    await Structure.remove({ name: req.params.structurename });
+    await Structure.remove({ _id: req.params.structurename });
   } catch (error) {
     res.status(500).json({ msg: "An error occured while deleting" });
     console.log(error);
@@ -44,7 +44,7 @@ router.put("/:structurename", auth, async (req, res) => {
 
   try {
     const structure = await Structure.findOneAndUpdate(
-      { name: req.params.structurename },
+      { _id: req.params.structurename },
       { name: givenname },
       { new: true }
     );
