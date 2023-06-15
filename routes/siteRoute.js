@@ -38,28 +38,30 @@ router.delete("/structure/:structure", auth, async (req, res) => {
 });
 
 router.delete("/:sitename", auth, async (req, res) => {
-  try {
-    await Site.remove({ name: req.params.sitename });
-  } catch (error) {
-    res.status(500).json({ msg: "An error occured while deleting" });
-    console.log(error);
-  }
-});
+      try {
+        console.log("erreur ?")
+        await Site.remove({name:req.params.sitename});
+      } catch (error) {
+        res.status(500).json({ msg: "An error occured while deleting" });
+        console.log(error);
+      }
+    });
 
 router.put("/:sitename", auth, async (req, res) => {
-  var { givenname } = req.body;
-
-  try {
-    const site = await Site.findOneAndUpdate(
-      { name: req.params.sitename },
-      { name: givenname },
-      { new: true }
-    );
-
-    return res.json(worker);
-  } catch (error) {
-    res.status(404).json({ msg: error });
-  }
-});
+      var { givenname} = req.body;
+    
+      try {
+        const site = await Site.findOneAndUpdate(
+          { name: req.params.sitename },
+          { name:givenname},
+          { new: true }
+        );
+    
+    
+        return res.json(worker);
+      } catch (error) {
+        res.status(404).json({ msg: error });
+      }
+    });
 
 module.exports = router;

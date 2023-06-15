@@ -3,8 +3,11 @@ const router = express.Router();
 const mailer = require("../config/mailing");
 
 //@Route    /api/email
-router.post("/", (req, res) => {
-  const { userMail, message, firstName, lastName } = req.body;
+//@Desc     send the email using mailer and input contact params
+//@Access   Private
+router.post("/", (req,res) => {
+
+const { userMail, message, firstName, lastName } = req.body;
 
   const mailSent = mailer(userMail, message, firstName, lastName);
 

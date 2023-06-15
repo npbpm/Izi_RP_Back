@@ -73,7 +73,6 @@ router.post("/", auth, upload.single("file"), (req, res) => {
   gfs.files.update(
     { filename: `${req.file.filename}` },
     { $set: { clientId: req.client.id, siteId: req.body.sites_id } }
-    // console.log("file succesfully uploaded", req.body.sites_id)
   );
 
   if (req.body.missions_id) {
@@ -94,7 +93,6 @@ router.get("/files", auth, async (req, res) => {
   const cursor = gfs.files.find();
   for await (const file of cursor) {
     arrayFiles.push(file);
-    console.log("found files");
   }
   res.json(arrayFiles);
 });

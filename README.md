@@ -66,6 +66,8 @@ It means everything is up and running!
 
 Once you are inside the app, you will need an user and a password to connect to the site, these must be provided by [IziRP](https://izirpback.onrender.com/#/).
 
+![alt text](https://github.com/npbpm/Izi_RP_Back/blob/main/README/loginImg.PNG?raw=true)
+
 ### Front Environment Only
 
 To run the FrontEnd only, you can use:

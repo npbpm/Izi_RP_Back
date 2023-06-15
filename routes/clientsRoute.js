@@ -179,7 +179,7 @@ router.put(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { password } = req.body;
+    const { password, adminGeneration } = req.body;
 
     try {
       let client = await Client.findOne({
@@ -195,10 +195,18 @@ router.put(
 
       let newPassword = await bcrypt.hash(password, salt);
 
-      await Client.findOneAndUpdate(
-        { _id: mongoose.Types.ObjectId(req.params.userId) },
-        { password: newPassword, firstConn: false }
-      );
+      if (adminGeneration) {
+        await Client.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.userId) },
+          { password: newPassword, firstConn: true }
+        );
+      } else {
+        await Client.findOneAndUpdate(
+          { _id: mongoose.Types.ObjectId(req.params.userId) },
+          { password: newPassword, firstConn: false }
+        );
+      }
+
       res.json({ msg: "Password Updated" });
     } catch (error) {
       console.log(error);
