@@ -84,6 +84,7 @@ router.post("/:clientId", auth, async (req, res) => {
       birthday,
       clientId: req.params.clientId,
       siteId: req.body.sites_id,
+      structureId: req.body.structure_id,
     });
     await worker.save();
     res.json(worker);

@@ -24,6 +24,10 @@ const verificationSchema = {
     type:String,
     required:false
   },
+  structureId:{
+    type:String,
+    required:false
+  },
   materials: Array,
 };
 

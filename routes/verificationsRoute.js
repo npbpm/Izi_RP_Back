@@ -60,8 +60,8 @@ router.post("/:clientId", auth, async (req, res) => {
       name,
       conformity,
       clientId: req.params.clientId,
-      siteId:req.body.sites_id
-
+      siteId:req.body.sites_id,
+      structureId:req.body.structure_id
     });
 
     await verif.save();

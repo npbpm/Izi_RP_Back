@@ -54,9 +54,9 @@ router.post("/", auth, async (req, res) => {
       category,
       clientId,
       modelType,
-      siteId:req.body.sites_id
+      siteId:req.body.sites_id,
+      structureId:req.body.structure_id
     });
-
     await equipment.save();
     res.json(equipment);
   } catch (error) {

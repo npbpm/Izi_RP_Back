@@ -48,6 +48,10 @@ const workerSchema = {
     type: String,
     required: false,
   },
+  structureId:{
+    type:String,
+    required:false
+  },
 };
 
 const Worker = mongoose.model("Worker", workerSchema);

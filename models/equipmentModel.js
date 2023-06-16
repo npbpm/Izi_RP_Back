@@ -7,7 +7,7 @@ const equipmentSchema = {
   },
   type: {
     type: String,
-    required: true,
+    required: false,
   },
   category: {
     type: String,
@@ -25,6 +25,10 @@ const equipmentSchema = {
   siteId:{
     type: String,
     required:false,
+  },
+  structureId:{
+    type: String,
+    required:false
   }
 };
 

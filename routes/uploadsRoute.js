@@ -71,10 +71,10 @@ const upload = multer({
 // @acces   Private
 router.post("/", auth, upload.single("file"), (req, res) => {
   //Associates the clientId to every single file uploaded
-  //It also gives every single file its own missionId, so we can load them in the right order in the front side
+  //It also gives every single file its own missionId, so we can load th  em in the right order in the front side
   gfs.files.update(
     { filename: `${req.file.filename}` },
-    { $set: { clientId: req.client.id, siteId: req.body.sites_id } }
+    { $set: { clientId: req.client.id, siteId: req.body.sites_id,StructureId:req.body.structure_id } }
   );
 
   if (req.body.missions_id) {

@@ -73,7 +73,7 @@ router.post("/", auth, upload.single("file"), (req, res) => {
   //Associates the clientId to every single file uploaded
   gfs.files.update(
     { filename: `${req.file.filename}` },
-    { $set: { clientId: req.client.id, verifId } }
+    { $set: { clientId: req.client.id, verifId ,structureId:req.body.structure_id} }
   );
 
   res.json(req.file);
