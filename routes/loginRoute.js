@@ -29,8 +29,6 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    console.log("IM USING THE LOGIN ROUTE");
-
     const { mail, password } = req.body;
 
     try {
@@ -53,10 +51,6 @@ router.post(
           id: client.id,
         },
       };
-
-      console.log("THIS IS THE SIGNIN SECRET");
-      console.log(jwtSecret);
-      console.log(typeof jwtSecret);
 
       jwt.sign(
         payload,

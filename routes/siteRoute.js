@@ -3,6 +3,9 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const Site = require("../models/siteModel");
 
+//@Route    /api/equipments/:givenstructure
+//@Desc     Get all equipments for a specific siteId
+//@Access   Private
 router.get("/:givenstructure", auth, async (req, res) => {
   //Checking if the request was sent by an admin or not
   const { authorization } = req.body;
@@ -16,6 +19,9 @@ router.get("/:givenstructure", auth, async (req, res) => {
   }
 });
 
+//@Route    /api/site/
+//@Desc     Post a new site to the DB
+//@Access   Private
 router.post("/", auth, async (req, res) => {
   const { entry, info } = req.body;
   const site = new Site({
@@ -28,6 +34,9 @@ router.post("/", auth, async (req, res) => {
   await site.save();
 });
 
+//@Route    /api/site/structure/:structure
+//@Desc     Delete a site that has a specific structure
+//@Access   Private
 router.delete("/structure/:structure", auth, async (req, res) => {
   try {
     await Site.deleteMany({ structureId: req.params.structure });
@@ -37,6 +46,9 @@ router.delete("/structure/:structure", auth, async (req, res) => {
   }
 });
 
+//@Route    /api/site/:sitename
+//@Desc     Delete a site that has a specific sitename
+//@Access   Private
 router.delete("/:sitename", auth, async (req, res) => {
   try {
     console.log("erreur ?");

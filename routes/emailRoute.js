@@ -4,7 +4,7 @@ const mailer = require("../config/mailing");
 
 //@Route    /api/email
 //@Desc     send the email using mailer and input contact params
-//@Access   Private
+//@Access   public
 router.post("/", (req,res) => {
 
 const { userMail, message, firstName, lastName } = req.body;

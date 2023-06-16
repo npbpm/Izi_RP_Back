@@ -227,6 +227,7 @@ router.put("/materials/clear/:verifId", auth, async (req, res) => {
     res.status(500).json({ msg: error.message });
   }
 });
+
 // @Route   DELETE /api/verifications/user/:userId
 // @Desc    Delete a verification from the db
 // @Access   Private
@@ -246,7 +247,7 @@ router.delete("/user/:userId", auth, async (req, res) => {
   }
 });
 
-// @Route   DELETE /api/verifications/user/:userId
+// @Route   DELETE /api/verifications/site/:givensiteId
 // @Desc    Delete a verification from the db
 // @Access   Private
 router.delete("/site/:givensiteId", auth, async (req, res) => {

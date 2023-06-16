@@ -3,6 +3,10 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const Structure = require("../models/structureModel");
 
+
+//@Route    /api/structure/
+//@Desc     GET all structure from DB
+//@Access   Private
 router.get("/", auth, async (req, res) => {
   //Checking if the request was sent by an admin or not
   const { authorization } = req.body;
@@ -16,6 +20,9 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+//@Route    /api/structure/
+//@Desc     POST a structure in DB
+//@Access   Private
 router.post("/", auth, async (req, res) => {
   const { entry } = req.body;
   structure = new Structure({
@@ -30,6 +37,9 @@ router.post("/", auth, async (req, res) => {
   } catch (error) {}
 });
 
+//@Route     /api/structure/:structurename
+//Desc       DELETE a specific structure by its structurename
+//@Access    private
 router.delete("/:structurename", auth, async (req, res) => {
   try {
     await Structure.remove({ _id: req.params.structurename });
@@ -39,6 +49,9 @@ router.delete("/:structurename", auth, async (req, res) => {
   }
 });
 
+//@Route    /api/structure/:structurename
+//@Desc     update a structure information
+//@Access   Private
 router.put("/:structurename", auth, async (req, res) => {
   var { givenname } = req.body;
 

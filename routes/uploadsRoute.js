@@ -48,6 +48,7 @@ const storage = new GridFsStorage({
   },
 });
 
+// Allows only pdf
 const fileFilter = (req, file, cb) => {
   if (file.mimetype === "application/pdf") {
     cb(null, true);
@@ -56,6 +57,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+// Limits file size
 const upload = multer({
   storage: storage,
   limits: {
@@ -97,7 +99,7 @@ router.get("/files", auth, async (req, res) => {
   res.json(arrayFiles);
 });
 
-// @route   GET /api/uploads/files/:id
+// @route   GET /api/uploads/files/:clientId
 // @desc    Get all files from the DB corresponding to the clientID
 // @acces   Private
 router.get("/files/:clientId", auth, async (req, res) => {

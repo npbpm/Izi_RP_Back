@@ -3,12 +3,30 @@ const router = express.Router();
 const Equipment = require("../models/equipmentModel");
 const auth = require("../middleware/auth");
 
-//@Route    /api/equipments
+//@Route    /api/equipments/:clientId
 //@Desc     Get all the equipments for a specific clientId
 //@Access   Private
 router.get("/:clientId", auth, async (req, res) => {
   try {
     const equipments = await Equipment.find({ clientId: req.params.clientId });
+
+    if (!equipments) {
+      res.status(404).json({ msg: "There are no equipments" });
+    }
+
+    res.json(equipments);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Couldn't get the equipments" });
+  }
+});
+
+//@Route    /api/equipments/site/:siteId
+//@Desc     Get all equipments for a specific siteId
+//@Access   Private
+router.get("/site/:siteId", auth, async (req, res) => {
+  try {
+    const equipments = await Equipment.find({ siteId: req.params.siteId });
 
     if (!equipments) {
       res.status(404).json({ msg: "There are no equipments" });
@@ -70,7 +88,7 @@ router.put("/", auth, async (req, res) => {
   }
 });
 
-//@Route    /api/equipments
+//@Route    /api/equipments/:equipmentId
 //@Desc     Delete an equipment using the equipmentId
 //@Access   Private
 router.delete("/:equipmentId", auth, async (req, res) => {
@@ -88,8 +106,9 @@ router.delete("/:equipmentId", auth, async (req, res) => {
     console.log(error);
   }
 });
-//@Route    /api/equipments/user
-//@Desc     Delete an equipment using the equipmentId
+
+//@Route    /api/equipments/user/:userId
+//@Desc     Delete an equipment using the clientId
 //@Access   Private
 router.delete("/user/:userId", auth, async (req, res) => {
   try {
@@ -107,8 +126,8 @@ router.delete("/user/:userId", auth, async (req, res) => {
   }
 });
 
-//@Route    /api/equipments/user
-//@Desc     Delete an equipment using the equipmentId
+//@Route    /api/equipments/site/:givensiteId
+//@Desc     Delete an equipment using the siteId
 //@Access   Private
 router.delete("/site/:givensiteId", auth, async (req, res) => {
   try {

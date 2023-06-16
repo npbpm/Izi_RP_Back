@@ -13,10 +13,6 @@ module.exports = function (req, res, next) {
     jwtSecret = process.env.jwtSecret;
   }
 
-  console.log("THIS IS THE SECRET");
-  console.log(jwtSecret);
-  console.log(typeof jwtSecret);
-
   //Check if not token
   if (!token) {
     return res.status(401).json({ msg: "No token, authorization denied" });
@@ -24,12 +20,6 @@ module.exports = function (req, res, next) {
 
   try {
     const decoded = jwt.verify(token, jwtSecret);
-
-    console.log("THIS IS THE TOKEN");
-    console.log(token);
-
-    console.log("DECODED");
-    console.log(decoded);
 
     req.client = decoded.client;
     next();

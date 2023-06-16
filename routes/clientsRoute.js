@@ -18,7 +18,7 @@ if (process.env.NODE_ENV !== "production") {
 
 //@Route    /api/user/USERMAIL
 //@Desc     Get Currently Connected Client by Email
-//@Access   Private
+//@Access   public
 router.get(
   "/:mail",
   /* auth, */ async (req, res) => {
@@ -236,6 +236,9 @@ router.put("/personalData/:userId", auth, async (req, res) => {
   }
 });
 
+//@Route    /api/user/:email
+//@Desc     Delete a user using email
+//@Access   Private
 router.delete("/:email", auth, async (req, res) => {
   try {
     await Client.remove({ email: req.params.email });
@@ -245,6 +248,10 @@ router.delete("/:email", auth, async (req, res) => {
   }
 });
 
+
+//@Route    /api/user/structure/:Sname
+//@Desc     Delete a user using structureId
+//@Access   Private
 router.delete("/structure/:SName", auth, async (req, res) => {
   try {
     await Client.deleteMany({ structureId: req.params.SName });
