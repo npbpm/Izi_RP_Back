@@ -52,6 +52,10 @@ router.post(
         },
       };
 
+      console.log("THIS IS THE SIGNIN SECRET");
+      console.log(jwtSecret);
+      console.log(typeof jwtSecret);
+
       jwt.sign(
         payload,
         jwtSecret,

@@ -15,6 +15,7 @@ module.exports = function (req, res, next) {
 
   console.log("THIS IS THE SECRET");
   console.log(jwtSecret);
+  console.log(typeof jwtSecret);
 
   //Check if not token
   if (!token) {
