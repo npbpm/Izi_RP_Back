@@ -13,6 +13,9 @@ module.exports = function (req, res, next) {
     jwtSecret = process.env.jwtSecret;
   }
 
+  console.log("THIS IS THE SECRET");
+  console.log(jwtSecret);
+
   //Check if not token
   if (!token) {
     return res.status(401).json({ msg: "No token, authorization denied" });
