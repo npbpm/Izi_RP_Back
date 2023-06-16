@@ -39,6 +39,24 @@ router.get("/site/:givensiteId", auth, async (req, res) => {
   }
 });
 
+// @Route   GET /api/verifications/site/:siteId
+// @Desc    Get verifications for a specific client
+// @Access   Private
+router.get("/struct/:givensiteId", auth, async (req, res) => {
+  try {
+    const verifs = await Verification.find({ structureId: req.params.givensiteId });
+
+    if (!verifs) {
+      res.status(404).json({ msg: "There are no verifications" });
+    }
+
+    res.json(verifs);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Couldn't get the verifications" });
+  }
+});
+
 // @Route   POST /api/verifications/:clientId
 // @Desc    Create a new Verification on the DB
 // @Access   Private
@@ -234,6 +252,25 @@ router.put("/materials/clear/:verifId", auth, async (req, res) => {
 router.delete("/user/:userId", auth, async (req, res) => {
   try {
     await Verification.deleteMany({clientId:req.params.userId}, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(404).json({ msg: "Could not delete" });
+      } else {
+        console.log("Deleted Succesfully");
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "An error occured while deleting" });
+    console.log(error);
+  }
+});
+
+// @Route   DELETE /api/verifications/user/:userId
+// @Desc    Delete a verification from the db
+// @Access   Private
+router.delete("/struct/:userId", auth, async (req, res) => {
+  try {
+    await Verification.deleteMany({structureId:req.params.userId}, (err, docs) => {
       if (err) {
         console.log(err);
         res.status(404).json({ msg: "Could not delete" });

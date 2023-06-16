@@ -145,4 +145,23 @@ router.delete("/site/:givensiteId", auth, async (req, res) => {
   }
 });
 
+//@Route    /api/equipments/site/:givensiteId
+//@Desc     Delete an equipment using the siteId
+//@Access   Private
+router.delete("/struct/:givensiteId", auth, async (req, res) => {
+  try {
+    await Equipment.deleteMany({ structureId: req.params.givensiteId }, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(404).json({ msg: "Could not delete" });
+      } else {
+        console.log("Deleted Succesfully");
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "An error occured while deleting" });
+    console.log(error);
+  }
+});
+
 module.exports = router;

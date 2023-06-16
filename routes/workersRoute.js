@@ -42,6 +42,35 @@ router.get("/:clientId", auth, async (req, res) => {
   }
 });
 
+// @Route   GET /api/workers/struct/:clientId
+// @Desc    Get workers for a specific client
+// @Access   Private
+router.get("/struct/:clientId", auth, async (req, res) => {
+  try {
+    const workers = await Worker.find({ structureId: req.params.clientId });
+
+    for (const worker of workers) {
+      // Decrypt
+      if (worker.numSocialSecurity) {
+        var bytes = CryptoJS.AES.decrypt(
+          worker.numSocialSecurity,
+          encryptionKey
+        );
+        worker.numSocialSecurity = bytes.toString(CryptoJS.enc.Utf8);
+      }
+    }
+
+    if (!workers) {
+      res.status(404).json({ msg: "There are no workers" });
+    }
+
+    res.json(workers);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: "Couldn't get the workers" });
+  }
+});
+
 // @Route   GET /api/workers/site/:clientId
 // @Desc    Get workers for a specific client
 // @Access   Private
@@ -119,6 +148,25 @@ router.delete("/:workerId", auth, async (req, res) => {
 router.delete("/user/:userId", auth, async (req, res) => {
   try {
     await Worker.deleteMany({ clientId: req.params.userId }, (err, docs) => {
+      if (err) {
+        console.log(err);
+        res.status(404).json({ msg: "Could not delete" });
+      } else {
+        console.log("Deleted Succesfully");
+      }
+    });
+  } catch (error) {
+    res.status(500).json({ msg: "An error occured while deleting" });
+    console.log(error);
+  }
+});
+
+// @Route   DELETE /api/workers/user/:userId
+// @Desc    Delete a worker from the db
+// @Access   Private
+router.delete("/struct/:userId", auth, async (req, res) => {
+  try {
+    await Worker.deleteMany({ structureId: req.params.userId }, (err, docs) => {
       if (err) {
         console.log(err);
         res.status(404).json({ msg: "Could not delete" });
