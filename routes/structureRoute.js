@@ -3,8 +3,7 @@ const router = express.Router();
 const auth = require("../middleware/auth");
 const Structure = require("../models/structureModel");
 
-
-//@Route    /api/structure/
+//@Route    /api/structure
 //@Desc     GET all structure from DB
 //@Access   Private
 router.get("/", auth, async (req, res) => {
@@ -20,7 +19,7 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
-//@Route    /api/structure/
+//@Route    /api/structure
 //@Desc     POST a structure in DB
 //@Access   Private
 router.post("/", auth, async (req, res) => {
@@ -34,7 +33,12 @@ router.post("/", auth, async (req, res) => {
     setTimeout(() => {
       structure.save();
     }, 100);
-  } catch (error) {}
+
+    res.json(structure);
+  } catch (error) {
+    console.log(error);
+    res.json({ msg: "Error saving the structure" });
+  }
 });
 
 //@Route     /api/structure/:structurename
