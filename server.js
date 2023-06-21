@@ -22,7 +22,6 @@ app.use(function (req, res, next) {
 });
 
 connectDB();
-// mailer();
 
 //Routes
 app.use("/api/connexion", require("./routes/loginRoute"));
@@ -36,8 +35,6 @@ app.use("/api/equipments", require("./routes/equipmentsRoute"));
 app.use("/api/structure", require("./routes/structureRoute"));
 app.use("/api/site", require("./routes/siteRoute"));
 app.use("/api/email", require("./routes/emailRoute"));
-
-// app.use(bodyParser({ limit: "50mb" }));
 
 if (process.env.NODE_ENV === "production") {
   // Set static folder

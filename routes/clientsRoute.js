@@ -19,30 +19,29 @@ if (process.env.NODE_ENV !== "production") {
 //@Route    /api/user/USERMAIL
 //@Desc     Get Currently Connected Client by Email
 //@Access   public
-router.get(
-  "/:mail",
-  /* auth, */ async (req, res) => {
-    try {
-      let client = await Client.findOne({ email: req.params.mail }).select(
-        "-password"
-      );
+router.get("/:mail", async (req, res) => {
+  try {
+    let client = await Client.findOne({ email: req.params.mail }).select(
+      "-password"
+    );
 
-      if (!client) {
-        return res.status(401).json({ msg: "Invalid Credentials" });
-      }
-      res.send(client);
-    } catch (error) {
-      console.log(error);
+    if (!client) {
+      return res.status(401).json({ msg: "Invalid Credentials" });
     }
+    res.send(client);
+  } catch (error) {
+    console.log(error);
   }
-);
+});
 
-//@Route    /api/user/USERMAIL
+//@Route    /api/user/structure/:structurename
 //@Desc     Get Currently Connected Client by Email
 //@Access   Private
 router.get("/structure/:structurename", auth, async (req, res) => {
   try {
-    let client = await Client.find({ structure: req.params.structurename });
+    let client = await Client.find({
+      structure: req.params.structurename,
+    }).select("-password");
 
     if (!client) {
       return res.status(401).json({ msg: "Invalid Credentials" });
@@ -51,8 +50,8 @@ router.get("/structure/:structurename", auth, async (req, res) => {
   } catch (error) {}
 });
 
-//@Route    /api/user/USERID
-//@Desc     Get client by ID
+//@Route    /api/user/personalData/:clientId
+//@Desc     Route used to change the client password, from the profile tab
 //@Access   Private
 router.post("/personalData/:clientId", auth, async (req, res) => {
   const { oldPassword } = req.body;
@@ -113,11 +112,12 @@ router.post(
       return res.status(400).json({ errors: errors.array() });
     }
 
-    const { mail, name, lastname, admin, structure,structureId, site } = req.body;
+    const { mail, name, lastname, admin, structure, structureId, site } =
+      req.body;
 
     //Look for the user inside the database
     try {
-      let client = await Client.findOne({ email: mail });
+      let client = await Client.findOne({ email: mail }).select("-password");
 
       if (client) {
         return res.status(400).json({ msg: "Client already exists" });
@@ -130,7 +130,7 @@ router.post(
         firstName: name,
         lastName: lastname,
         structure: structure,
-        structureId:structureId,
+        structureId: structureId,
         site: site,
         password,
         admin,
@@ -155,7 +155,7 @@ router.post(
         payload,
         jwtSecret,
         {
-          expiresIn: 3600,
+          expiresIn: 1200,
         },
         (err, token) => {
           if (err) throw err;
@@ -247,7 +247,6 @@ router.delete("/:email", auth, async (req, res) => {
     console.log(error);
   }
 });
-
 
 //@Route    /api/user/structure/:Sname
 //@Desc     Delete a user using structureId

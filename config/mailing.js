@@ -42,6 +42,7 @@ const mailer = (userMail, message, firstName, lastName) => {
       return false;
     } else {
       console.log("Email sent: " + info.response);
+      return true;
     }
   });
   transporter.sendMail(mailOptionsclient, function (error, info) {
@@ -53,5 +54,7 @@ const mailer = (userMail, message, firstName, lastName) => {
       return true;
     }
   });
+
+  return true;
 };
 module.exports = mailer;

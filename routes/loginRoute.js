@@ -56,7 +56,7 @@ router.post(
         payload,
         jwtSecret,
         {
-          expiresIn: 3600,
+          expiresIn: 1200,
         },
         (err, token) => {
           if (err) throw err;
@@ -67,8 +67,6 @@ router.post(
       console.error(error.message);
       res.status(500).send("Server Error");
     }
-
-    //Do not send the password, maybe only the id
   }
 );
 
