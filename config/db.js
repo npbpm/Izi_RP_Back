@@ -1,8 +1,6 @@
 const mongoose = require("mongoose");
 const config = require("config");
 
-//We will need to whitelist the ip's that are going to connect to the databse, for now only my personal IP (Nicolás) is whitelisted
-
 const connectDB = async () => {
   let db;
 

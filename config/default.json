@@ -1,0 +1,6 @@
+{
+    "mongoURI": "mongodb+srv://dev:Ping2023Telecom@xray-consulting-db.sifkosj.mongodb.net/test?retryWrites=true&w=majority",
+    "jwtSecret": "XRayConsultingSecret",
+    "encryptionSecretKey": "*-iziRPEncryptionSecretKey-*",
+    "mailPassword": "jcxsgatshjjnqglf"
+}
